@@ -1,6 +1,38 @@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
+import { Product, ProductCard } from "./components/ProductCard";
+
+const products: Product[] = [
+    {
+        _id: "1",
+        name: "Margarita Pizza",
+        description: "This is tasty pizza",
+        image: "/pizza-main.png",
+        price: 500
+    },
+    {
+        _id: "2",
+        name: "Margarita Pizza",
+        description: "This is tasty pizza",
+        image: "/pizza-main.png",
+        price: 500
+    },
+    {
+        _id: "3",
+        name: "Margarita Pizza",
+        description: "This is tasty pizza",
+        image: "/pizza-main.png",
+        price: 500
+    },
+    {
+        _id: "4",
+        name: "Margarita Pizza",
+        description: "This is tasty pizza",
+        image: "/pizza-main.png",
+        price: 500
+    }
+];
 
 export default function Home() {
     return (
@@ -34,7 +66,7 @@ export default function Home() {
             </section>
             <section>
                 <div className="container py-12 mx-auto">
-                    <Tabs defaultValue="pizza" className="w-[400px]">
+                    <Tabs defaultValue="pizza">
                         <TabsList>
                             <TabsTrigger value="pizza" className="text-md">
                                 Pizza
@@ -43,9 +75,25 @@ export default function Home() {
                                 Beverages
                             </TabsTrigger>
                         </TabsList>
-                        <TabsContent value="pizza">Pizza list</TabsContent>
+                        <TabsContent value="pizza">
+                            <div className="grid grid-cols-4 gap-6 mt-6">
+                                {products.map((product) => (
+                                    <ProductCard
+                                        product={product}
+                                        key={product._id}
+                                    />
+                                ))}
+                            </div>
+                        </TabsContent>
                         <TabsContent value="beverages">
-                            Beverages list
+                            <div className="grid grid-cols-4 gap-6 mt-6">
+                                {products.map((product) => (
+                                    <ProductCard
+                                        product={product}
+                                        key={product._id}
+                                    />
+                                ))}
+                            </div>
                         </TabsContent>
                     </Tabs>
                 </div>
