@@ -10,6 +10,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Image from "next/image";
 import React from "react";
 import { ToppingsList } from "./ToppingsList";
+import { Button } from "@/components/ui/button";
+import { ShoppingCart } from "lucide-react";
 
 export interface Product {
     _id: string;
@@ -155,6 +157,18 @@ export const ProductCard: React.FC<ProductPropType> = ({ product }) => {
                                 </div>
 
                                 <ToppingsList />
+
+                                <div className="flex items-center justify-between mt-12">
+                                    <span className="font-bold text-xl">
+                                        ₹400
+                                    </span>
+                                    <Button>
+                                        <ShoppingCart size={20} />
+                                        <span className="ml-2">
+                                            Add to cart
+                                        </span>
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </DialogContent>
