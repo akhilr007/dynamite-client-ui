@@ -1,42 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import Image from "next/image";
-import { ProductCard } from "./components/ProductCard";
-import { Category, Product } from "@/lib/types";
+import { ProductList } from "./components/ProductList";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function Home() {
-    const categoryResponse = await fetch(
-        `${process.env.BACKEND_URL}/api/v1/categories`,
-        {
-            next: {
-                revalidate: 3600
-            }
-        }
-    );
-
-    if (!categoryResponse.ok) {
-        throw new Error("Failed to fetch Category");
-    }
-
-    const categories = await categoryResponse.json();
-
-    // todo: add pagination
-    // todo: add dynamic tenant id
-    const productsResponse = await fetch(
-        `${process.env.BACKEND_URL}/api/v1/products?perPage=100&tenantId=4`,
-        {
-            next: {
-                revalidate: 3600
-            }
-        }
-    );
-
-    if (!productsResponse.ok) {
-        throw new Error("Failed to fetch Products");
-    }
-
-    const products: { data: Product[] } = await productsResponse.json();
-
     return (
         <>
             <section className="bg-white ">
@@ -66,44 +35,20 @@ export default async function Home() {
                     </div>
                 </div>
             </section>
-            <section>
-                <div className="container py-12 mx-auto">
-                    <Tabs defaultValue={categories[0]._id}>
-                        <TabsList>
-                            {categories.map((category: Category) => (
-                                <TabsTrigger
-                                    key={category._id}
-                                    value={category._id}
-                                    className="text-md"
-                                >
-                                    {category.name}
-                                </TabsTrigger>
-                            ))}
-                        </TabsList>
-                        {categories.map((category: Category) => (
-                            <TabsContent
-                                key={category._id}
-                                value={category._id}
-                            >
-                                <div className="grid grid-cols-4 gap-6 mt-6">
-                                    {products?.data
-                                        .filter(
-                                            (product) =>
-                                                product.categoryId ===
-                                                category._id
-                                        )
-                                        .map((product) => (
-                                            <ProductCard
-                                                product={product}
-                                                key={product._id}
-                                            />
-                                        ))}
-                                </div>
-                            </TabsContent>
-                        ))}
-                    </Tabs>
-                </div>
-            </section>
+
+            <Suspense
+                fallback={
+                    <div className="flex flex-col space-y-3">
+                        <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-[250px]" />
+                            <Skeleton className="h-4 w-[200px]" />
+                        </div>
+                    </div>
+                }
+            >
+                <ProductList />
+            </Suspense>
         </>
     );
 }
