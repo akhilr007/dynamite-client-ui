@@ -12,14 +12,7 @@ import React from "react";
 import { ToppingsList } from "./ToppingsList";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
-
-export interface Product {
-    _id: string;
-    name: string;
-    description: string;
-    image: string;
-    price: number;
-}
+import { Product } from "@/lib/types";
 
 export type ProductPropType = {
     product: Product;
@@ -43,7 +36,7 @@ export const ProductCard: React.FC<ProductPropType> = ({ product }) => {
             <CardFooter className="flex items-center justify-between mt-4">
                 <p>
                     <span>From </span>
-                    <span className="font-bold">₹{product.price}</span>
+                    <span className="font-bold">₹{100}</span>
                 </p>
                 <Dialog>
                     <DialogTrigger className="bg-orange-200 hover:bg-orange-300 text-orange-500 px-6 py-2 rounded-full shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150">
