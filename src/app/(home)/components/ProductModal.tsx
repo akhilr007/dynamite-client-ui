@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { ToppingsList } from "./ToppingsList";
 import { Button } from "@/components/ui/button";
@@ -13,6 +15,7 @@ interface ProductModalProps {
 }
 
 export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
+    const handleAddToCart = () => {};
     return (
         <Dialog>
             <DialogTrigger className="bg-orange-200 hover:bg-orange-300 text-orange-500 px-6 py-2 rounded-full shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150">
@@ -68,7 +71,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
 
                         <div className="flex items-center justify-between mt-12">
                             <span className="font-bold text-xl">₹400</span>
-                            <Button>
+                            <Button onClick={handleAddToCart}>
                                 <ShoppingCart size={20} />
                                 <span className="ml-2">Add to cart</span>
                             </Button>
