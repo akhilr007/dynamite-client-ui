@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { startTransition, useEffect, useState } from "react";
 import { ToppingCard } from "./ToppingCard";
 import { Topping } from "@/lib/types";
 
@@ -46,14 +46,17 @@ export const ToppingsList = async () => {
         const isAlreadyExists = selectedToppings.some(
             (element) => element._id === topping._id
         );
-        if (isAlreadyExists) {
-            setSelectedToppings((prev) =>
-                prev.filter((element) => element._id !== topping._id)
-            );
-            return;
-        }
 
-        setSelectedToppings((prev) => [...prev, topping]);
+        startTransition(() => {
+            if (isAlreadyExists) {
+                setSelectedToppings((prev) =>
+                    prev.filter((element) => element._id !== topping._id)
+                );
+                return;
+            }
+
+            setSelectedToppings((prev) => [...prev, topping]);
+        });
     };
     return (
         <section className="mt-6">
