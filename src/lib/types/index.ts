@@ -49,4 +49,5 @@ export interface Product {
     tenantId: string;
     categoryId: string;
     isPublished: boolean;
+    category: Category;
 }
