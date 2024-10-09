@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { ToppingsList } from "./ToppingsList";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import { Product } from "@/lib/types";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProductModalProps {
     product: Product;
@@ -67,7 +68,19 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
                             </div>
                         ))}
 
-                        <ToppingsList />
+                        <Suspense
+                            fallback={
+                                <div className="grid grid-cols-3 gap-4 mt-2">
+                                    <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+                                    <div className="space-y-2">
+                                        <Skeleton className="h-4 w-[250px]" />
+                                        <Skeleton className="h-4 w-[200px]" />
+                                    </div>
+                                </div>
+                            }
+                        >
+                            <ToppingsList />
+                        </Suspense>
 
                         <div className="flex items-center justify-between mt-12">
                             <span className="font-bold text-xl">₹400</span>
