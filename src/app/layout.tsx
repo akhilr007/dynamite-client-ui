@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { Header } from "../components/custom/header";
 import { cn } from "@/lib/utils";
+import StoreProvider from "./StoreProvider";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -28,14 +29,16 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body
-                className={cn(
-                    `min-h-screen bg-background ${geistSans.variable} ${geistMono.variable} antialiased`
-                )}
-            >
-                <Header />
-                <main>{children}</main>
-            </body>
+            <StoreProvider>
+                <body
+                    className={cn(
+                        `min-h-screen bg-background ${geistSans.variable} ${geistMono.variable} antialiased`
+                    )}
+                >
+                    <Header />
+                    <main>{children}</main>
+                </body>
+            </StoreProvider>
         </html>
     );
 }
