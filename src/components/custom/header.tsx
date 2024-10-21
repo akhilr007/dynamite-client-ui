@@ -7,9 +7,10 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import Link from "next/link";
-import { Phone, ShoppingBasket } from "lucide-react";
+import { Phone } from "lucide-react";
 import { Button } from "../ui/button";
 import { Tenant } from "@/lib/types";
+import { CartCounter } from "./CartCounter";
 
 export const Header = async () => {
     const tenantsResponse = await fetch(
@@ -78,14 +79,7 @@ export const Header = async () => {
                             </Link>
                         </li>
                     </ul>
-                    <div className="relative">
-                        <Link className="hover:text-primary" href={"/cart"}>
-                            <ShoppingBasket />
-                        </Link>
-                        <span className="absolute -top-4 -right-4 h-6 w-6 flex items-center justify-center rounded-full bg-primary font-semibold text-white">
-                            5
-                        </span>
-                    </div>
+                    <CartCounter />
                     <div className="flex items-center ml-12">
                         <Phone />
                         <span>+1 9999999999</span>
