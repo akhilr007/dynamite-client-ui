@@ -1,8 +1,7 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { Topping } from "@/lib/types";
-import { cn } from "@/lib/utils";
-import { CircleCheck } from "lucide-react";
+import {Button} from "@/components/ui/button";
+import {Topping} from "@/lib/types";
+import {cn} from "@/lib/utils";
+import {CircleCheck} from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
@@ -11,6 +10,7 @@ interface ToppingCardProps {
     topping: Topping;
     handleCheckboxCheck: (topping: Topping) => void;
 }
+
 export const ToppingCard: React.FC<ToppingCardProps> = ({
     topping,
     selectedToppings,
@@ -19,6 +19,7 @@ export const ToppingCard: React.FC<ToppingCardProps> = ({
     const isCurrentSelected = selectedToppings.some(
         (element) => element._id === topping._id
     );
+
     return (
         <Button
             variant="outline"
