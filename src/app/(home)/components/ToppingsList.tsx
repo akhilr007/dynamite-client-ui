@@ -1,32 +1,13 @@
-import React, { startTransition, useEffect, useState } from "react";
-import { ToppingCard } from "./ToppingCard";
-import { Topping } from "@/lib/types";
+import React, {useEffect, useState} from "react";
+import {ToppingCard} from "./ToppingCard";
+import {Topping} from "@/lib/types";
 
-// const toppings = [
-//     {
-//         id: "1",
-//         name: "Chicken",
-//         image: "/chicken.png",
-//         price: 50,
-//         isAvailable: true
-//     },
-//     {
-//         id: "2",
-//         name: "Jelapeno",
-//         image: "/jelapeno.png",
-//         price: 50,
-//         isAvailable: true
-//     },
-//     {
-//         id: "3",
-//         name: "Cheese",
-//         image: "/cheese.png",
-//         price: 50,
-//         isAvailable: true
-//     }
-// ];
+type ToppingsListProps = {
+    selectedToppings: Topping[];
+    handleCheckboxCheck: (toppings: Topping) => void;
+}
 
-export const ToppingsList = async () => {
+export const ToppingsList: React.FC<ToppingsListProps> = async ({ selectedToppings, handleCheckboxCheck}) => {
     const [toppings, setToppings] = useState<Topping[]>([]);
 
     useEffect(() => {
@@ -41,23 +22,6 @@ export const ToppingsList = async () => {
         fetchData();
     }, []);
 
-    const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
-    const handleCheckboxCheck = (topping: Topping) => {
-        const isAlreadyExists = selectedToppings.some(
-            (element) => element._id === topping._id
-        );
-
-        startTransition(() => {
-            if (isAlreadyExists) {
-                setSelectedToppings((prev) =>
-                    prev.filter((element) => element._id !== topping._id)
-                );
-                return;
-            }
-
-            setSelectedToppings((prev) => [...prev, topping]);
-        });
-    };
     return (
         <section className="mt-6">
             <h4>Extra Toppings</h4>

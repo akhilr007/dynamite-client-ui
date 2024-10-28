@@ -1,6 +1,6 @@
 "use client";
 
-import React, {startTransition, Suspense} from "react";
+import React, { startTransition, Suspense, useState } from "react";
 import { ToppingsList } from "./ToppingsList";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
-import { Product } from "@/lib/types";
+import { Product, Topping } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProductModalProps {
@@ -17,22 +17,37 @@ interface ProductModalProps {
 
 type ChosenConfig = {
     [key: string]: string;
-}
-
+};
 
 export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
-
     const [chosenConfig, setChosenConfig] = React.useState<ChosenConfig>();
 
-    const handleRadioChange = (key: string, data: string) => {
+    const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
+
+    const handleCheckboxCheck = (topping: Topping) => {
+        const isAlreadyExists = selectedToppings.some(
+            (element) => element._id === topping._id
+        );
 
         startTransition(() => {
-            setChosenConfig((prev) => {
-                return { ...prev, [key]: data }
-            })
-        })
+            if (isAlreadyExists) {
+                setSelectedToppings((prev) =>
+                    prev.filter((element) => element._id !== topping._id)
+                );
+                return;
+            }
 
-    }
+            setSelectedToppings((prev) => [...prev, topping]);
+        });
+    };
+
+    const handleRadioChange = (key: string, data: string) => {
+        startTransition(() => {
+            setChosenConfig((prev) => {
+                return { ...prev, [key]: data };
+            });
+        });
+    };
 
     const handleAddToCart = () => {};
 
@@ -101,7 +116,10 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
                                 </div>
                             }
                         >
-                            <ToppingsList />
+                            <ToppingsList
+                                selectedToppings={selectedToppings}
+                                handleCheckboxCheck={handleCheckboxCheck}
+                            />
                         </Suspense>
 
                         <div className="flex items-center justify-between mt-12">
