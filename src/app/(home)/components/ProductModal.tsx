@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, {startTransition, Suspense} from "react";
 import { ToppingsList } from "./ToppingsList";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
@@ -15,8 +15,27 @@ interface ProductModalProps {
     product: Product;
 }
 
+type ChosenConfig = {
+    [key: string]: string;
+}
+
+
 export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
+
+    const [chosenConfig, setChosenConfig] = React.useState<ChosenConfig>();
+
+    const handleRadioChange = (key: string, data: string) => {
+
+        startTransition(() => {
+            setChosenConfig((prev) => {
+                return { ...prev, [key]: data }
+            })
+        })
+
+    }
+
     const handleAddToCart = () => {};
+
     return (
         <Dialog>
             <DialogTrigger className="bg-orange-200 hover:bg-orange-300 text-orange-500 px-6 py-2 rounded-full shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150">
@@ -43,6 +62,9 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
                                 <h4 className="mt-6">Choose the {key} </h4>
                                 <RadioGroup
                                     defaultValue={value.availableOptions[0]}
+                                    onValueChange={(data) => {
+                                        handleRadioChange(key, data);
+                                    }}
                                     className="grid grid-cols-3 gap-4 mt-2"
                                 >
                                     {value.availableOptions.map((option) => (
